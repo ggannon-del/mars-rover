@@ -91,3 +91,16 @@ func TestMoveForwardFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
 		t.Errorf("coordinate wrapping error, got %v, expected %v", got, want)
 	}
 }
+
+func TestMoveBackwardFromBottomEdgeSouthWrapsToTopNorth(t *testing.T) {
+	Rover := NewRover(1, 0, "N")
+
+	Rover.MoveBackward()
+	want := 3
+
+	_, got, _ := Rover.GetPosition()
+
+	if got != want {
+		t.Errorf("coordinate wrapping error, got %v, expected %v", got, want)
+	}
+}
