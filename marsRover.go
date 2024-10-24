@@ -5,6 +5,8 @@ type Rover struct {
 	direction string
 }
 
+const gridSize = 4
+
 func NewRover(x, y int, direction string) *Rover {
 	return &Rover{
 		x:         x,
@@ -43,7 +45,14 @@ func (r *Rover) FaceRight() {
 }
 
 func (r *Rover) MoveForward() {
-	if r.direction == "N" {
-		r.y = 2
+	switch r.direction {
+	case "N":
+		r.y = (r.y + 1) % gridSize
+	case "E":
+		r.x = (r.x + 1) % gridSize
+	case "S":
+		r.y = (r.y - 1 + gridSize) % gridSize
+	case "W":
+		r.x = (r.x - 1 + gridSize) % gridSize
 	}
 }
