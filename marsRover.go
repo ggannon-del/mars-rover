@@ -44,28 +44,37 @@ func (r *Rover) FaceRight() {
 	}
 }
 
-func (r *Rover) MoveForward() {
-	switch r.direction {
-	case "N":
-		r.y = (r.y + 1) % gridSize
-	case "E":
-		r.x = (r.x + 1) % gridSize
-	case "S":
-		r.y = (r.y - 1 + gridSize) % gridSize
-	case "W":
-		r.x = (r.x - 1 + gridSize) % gridSize
+/*
+	func (r *Rover) MoveForward() {
+		switch r.direction {
+		case "N":
+			r.y = (r.y + 1) % gridSize
+		case "E":
+			r.x = (r.x + 1) % gridSize
+		case "S":
+			r.y = (r.y - 1 + gridSize) % gridSize
+		case "W":
+			r.x = (r.x - 1 + gridSize) % gridSize
+		}
 	}
+*/
+func (r *Rover) MoveForward() {
+	r.Move(1)
 }
 
 func (r *Rover) MoveBackward() {
+	r.Move(-1)
+}
+
+func (r *Rover) Move(step int) {
 	switch r.direction {
 	case "N":
-		r.y = (r.y - 1 + gridSize) % gridSize
+		r.y = (r.y + step + gridSize) % gridSize
 	case "E":
-		r.x = (r.x - 1 + gridSize) % gridSize
+		r.x = (r.x + step + gridSize) % gridSize
 	case "S":
-		r.y = (r.y + 1) % gridSize
+		r.y = (r.y - step + gridSize) % gridSize
 	case "W":
-		r.x = (r.x + 1) % gridSize
+		r.x = (r.x - step + gridSize) % gridSize
 	}
 }
