@@ -56,3 +56,16 @@ func (r *Rover) MoveForward() {
 		r.x = (r.x - 1 + gridSize) % gridSize
 	}
 }
+
+func (r *Rover) MoveBackward() {
+	switch r.direction {
+	case "N":
+		r.y = (r.y - 1 + gridSize) % gridSize
+	case "E":
+		r.x = (r.x - 1 + gridSize) % gridSize
+	case "S":
+		r.y = (r.y + 1) % gridSize
+	case "W":
+		r.x = (r.x + 1) % gridSize
+	}
+}
