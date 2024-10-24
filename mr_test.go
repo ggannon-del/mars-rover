@@ -55,6 +55,33 @@ func TestFaceRight(t *testing.T) {
 	}
 }
 
+func TestMoveForwardHappyPath(t *testing.T) {
+	tests := []struct {
+		name            string
+		facingDirection string
+		x               int
+		y               int
+		expectedX       int
+		expectedY       int
+	}{
+		{name: "Forward facing North", facingDirection: "N", x: 1, y: 1, expectedX: 1, expectedY: 2},
+		{name: "Forward facing East", facingDirection: "E", x: 1, y: 1, expectedX: 2, expectedY: 1},
+		{name: "Forward facing South", facingDirection: "S", x: 1, y: 1, expectedX: 1, expectedY: 0},
+		{name: "Forward facing West", facingDirection: "W", x: 1, y: 1, expectedX: 0, expectedY: 1},
+	}
+	for _, test := range tests {
+		Rover := NewRover(test.x, test.y, test.facingDirection)
+		Rover.MoveForward()
+		gotX, gotY, _ := Rover.GetPosition()
+		if gotX != test.expectedX {
+			t.Errorf("%s got %v, want %v", test.name, gotX, test.expectedX)
+		}
+		if gotY != test.expectedY {
+			t.Errorf("%s got %v, want %v", test.name, gotY, test.expectedY)
+		}
+	}
+}
+
 func TestHappyPathMoveForwardNorth(t *testing.T) {
 	Rover := NewRover(1, 1, "N")
 
@@ -79,7 +106,7 @@ func TestMoveBackwardNorth(t *testing.T) {
 	}
 }
 
-func TestMoveForwardFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
+func TestMoveForwardNorthFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
 	Rover := NewRover(1, 3, "N")
 
 	Rover.MoveForward()
@@ -92,7 +119,7 @@ func TestMoveForwardFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
 	}
 }
 
-func TestMoveBackwardFromBottomEdgeSouthWrapsToTopNorth(t *testing.T) {
+func TestMoveBackwardNorthFromBottomEdgeSouthWrapsToTopNorth(t *testing.T) {
 	Rover := NewRover(1, 0, "N")
 
 	Rover.MoveBackward()
