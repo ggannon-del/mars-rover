@@ -66,3 +66,15 @@ func TestMoveForwardNorth(t *testing.T) {
 		t.Error("Expected position (1,2) after moving forward")
 	}
 }
+
+func TestMoveBackwardNorth(t *testing.T) {
+	Rover := NewRover(1, 1, "N")
+
+	Rover.MoveBackward()
+
+	x, y, _ := Rover.GetPosition()
+
+	if x != 1 || y != 0 {
+		t.Error("Expected position (1,2) after moving forward")
+	}
+}
