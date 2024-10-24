@@ -17,6 +17,7 @@ func (r *Rover) GetPosition() (int, int, string) {
 	return r.x, r.y, r.direction
 }
 
+// refactor later to array
 func (r *Rover) FaceLeft() {
 	if r.direction == "N" {
 		r.direction = "W"
@@ -25,6 +26,18 @@ func (r *Rover) FaceLeft() {
 	} else if r.direction == "S" {
 		r.direction = "E"
 	} else if r.direction == "E" {
+		r.direction = "N"
+	}
+}
+
+func (r *Rover) FaceRight() {
+	if r.direction == "N" {
+		r.direction = "E"
+	} else if r.direction == "E" {
+		r.direction = "S"
+	} else if r.direction == "S" {
+		r.direction = "W"
+	} else if r.direction == "W" {
 		r.direction = "N"
 	}
 }
