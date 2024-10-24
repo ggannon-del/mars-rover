@@ -41,3 +41,9 @@ func (r *Rover) FaceRight() {
 		r.direction = "N"
 	}
 }
+
+func (r *Rover) MoveForward() {
+	if r.direction == "N" {
+		r.y = 2
+	}
+}

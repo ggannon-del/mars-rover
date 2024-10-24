@@ -56,13 +56,13 @@ func TestFaceRight(t *testing.T) {
 }
 
 func TestMoveForwardNorth(t *testing.T) {
-	Rover := NewRover(0, 0, "N")
+	Rover := NewRover(1, 1, "N")
 
 	Rover.MoveForward()
 
 	x, y, _ := Rover.GetPosition()
 
-	if x != 0 || y != 1 {
-		t.Error("Expected position (0,1) after moving forward")
+	if x != 1 || y != 2 {
+		t.Error("Expected position (1,2) after moving forward")
 	}
 }
