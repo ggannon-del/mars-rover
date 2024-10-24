@@ -55,7 +55,7 @@ func TestFaceRight(t *testing.T) {
 	}
 }
 
-func TestMoveForwardNorth(t *testing.T) {
+func TestHappyPathMoveForwardNorth(t *testing.T) {
 	Rover := NewRover(1, 1, "N")
 
 	Rover.MoveForward()
@@ -64,5 +64,18 @@ func TestMoveForwardNorth(t *testing.T) {
 
 	if x != 1 || y != 2 {
 		t.Error("Expected position (1,2) after moving forward")
+	}
+}
+
+func TestMoveForwardFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
+	Rover := NewRover(1, 3, "N")
+
+	Rover.MoveForward()
+	want := 0
+
+	_, got, _ := Rover.GetPosition()
+
+	if got != want {
+		t.Errorf("coordinate wrapping error, got %v, expected %v", got, want)
 	}
 }
