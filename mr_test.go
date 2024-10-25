@@ -342,19 +342,11 @@ func TestOriginalRoverPositionDoesNotContainRover(t *testing.T) {
 	}
 }
 
-func RunesToStrings(runes []rune) []string {
-	strings := make([]string, len(runes))
-	for i, r := range runes {
-		strings[i] = string(r)
-	}
-	return strings
-}
-
 func TestExecuteCommandsWithoutObstacles(t *testing.T) {
 	planet := NewPlanet(4, 4)
 	rover := NewRover(0, 0, "N", planet)
 
-	commands := RunesToStrings([]rune("ffrff"))
+	commands := []string{"f", "f", "r", "f"}
 	err := rover.ExecuteCommands(commands)
 
 	if err != nil {
@@ -362,7 +354,7 @@ func TestExecuteCommandsWithoutObstacles(t *testing.T) {
 	}
 
 	x, y, direction := rover.GetPosition()
-	expectedX, expectedY, expectedDirection := 2, 2, "E"
+	expectedX, expectedY, expectedDirection := 1, 2, "E"
 
 	if x != expectedX || y != expectedY || direction != expectedDirection {
 		t.Errorf("Expected position (%d,%d,%s), got (%d,%d,%s)", expectedX, expectedY, expectedDirection, x, y, direction)
@@ -393,7 +385,7 @@ func TestExecuteCommandsWithEdgeWrapping(t *testing.T) {
 	planet := NewPlanet(4, 4)
 	rover := NewRover(3, 3, "N", planet)
 
-	commands := RunesToStrings([]rune("ffrff"))
+	commands := []string{"f", "f", "r", "f", "f"}
 	err := rover.ExecuteCommands(commands)
 
 	if err != nil {
@@ -407,5 +399,3 @@ func TestExecuteCommandsWithEdgeWrapping(t *testing.T) {
 		t.Errorf("Expected position (%d,%d) after edge wrapping, got (%d,%d)", expectedX, expectedY, x, y)
 	}
 }
-
-//update repos

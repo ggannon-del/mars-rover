@@ -41,19 +41,19 @@ func (p *Planet) PlaceObstacle(x, y int) {
 	p.grid[x][y] = "O"
 }
 
-func (p *Planet) displayPlanet() {
-	for _, row := range p.grid {
-		for _, spot := range row {
-			if spot == "" {
-				fmt.Print(".")
-			} else {
-				fmt.Print(spot, " ")
-			}
-		}
-		fmt.Println()
-	}
-	fmt.Println()
-}
+// func (p *Planet) displayPlanet() {
+// 	for _, row := range p.grid {
+// 		for _, spot := range row {
+// 			if spot == "" { // If the spot is empty (uninitialized), print a space or placeholder
+// 				fmt.Print(".") // Two spaces for an empty spot for better readability
+// 			} else {
+// 				fmt.Print(spot, " ") // Print the current value with a space for clarity
+// 			}
+// 		}
+// 		fmt.Println() // Newline after each row
+// 	}
+// 	fmt.Println() // Extra newline for better readability
+// }
 
 func (r *Rover) updateRoverPositionOnGrid() {
 	r.planet.grid[r.x][r.y] = "ROVER"
@@ -87,12 +87,12 @@ func (r *Rover) FaceRight() {
 	r.direction = directionMap[r.direction]
 }
 
-func (r *Rover) MoveForward() {
-	r.Move(1)
+func (r *Rover) MoveForward() error {
+	return r.Move(1)
 }
 
-func (r *Rover) MoveBackward() {
-	r.Move(-1)
+func (r *Rover) MoveBackward() error {
+	return r.Move(-1)
 }
 
 func (r *Rover) clearOldPosition(x, y int) {
@@ -143,9 +143,9 @@ func (r *Rover) ExecuteCommands(commands []string) error {
 		var err error
 		switch command {
 		case "f":
-			err = r.Move(1)
+			err = r.MoveForward()
 		case "b":
-			err = r.Move(-1)
+			err = r.MoveBackward()
 		case "l":
 			r.FaceLeft()
 		case "r":
