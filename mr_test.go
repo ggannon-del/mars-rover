@@ -99,6 +99,7 @@ func TestMoveForwardHappyPath(t *testing.T) {
 	}
 	for _, test := range tests {
 		Rover := NewRover(test.x, test.y, test.facingDirection)
+
 		Rover.MoveForward()
 		gotX, gotY, _ := Rover.GetPosition()
 		if gotX != test.expectedX {
@@ -126,7 +127,9 @@ func TestMoveForwardEdgeCases(t *testing.T) {
 	}
 	for _, test := range tests {
 		Rover := NewRover(test.x, test.y, test.facingDirection)
+
 		Rover.MoveForward()
+
 		gotX, gotY, _ := Rover.GetPosition()
 		if gotX != test.expectedX {
 			t.Errorf("%s got %v, want %v", test.name, gotX, test.expectedX)
@@ -239,4 +242,18 @@ func TestMoveBackwardNorthFromBottomEdgeSouthWrapsToTopNorth(t *testing.T) {
 	if got != want {
 		t.Errorf("coordinate wrapping error, got %v, expected %v", got, want)
 	}
+}
+
+func TestMovingForwardUpdatesPlanet(t *testing.T) {
+	Rover := NewRover(1, 1, "N")
+	Planet := NewPlanet(4, 4, Rover)
+
+	Rover.MoveForward()
+	want := "ROVER"
+	got := Planet.GetPlanetSpot(1, 2)
+
+	if got != want {
+		t.Errorf("error when updating grid when rover moves, got %v, expected %v", got, want)
+	}
+
 }
