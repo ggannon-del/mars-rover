@@ -327,3 +327,17 @@ func TestMovingBackwardUpdatesPlanetEdgeCase(t *testing.T) {
 	}
 
 }
+
+func TestOriginalRoverPositionDoesNotContainRover(t *testing.T) {
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(0, 0, "N", Planet)
+
+	Rover.MoveForward()
+	want := ""
+	got := Rover.GetPlanetSpot(0, 0)
+
+	if got != want {
+		t.Errorf("error when updating grid when rover moves, got %v, expected %v", got, want)
+	}
+}
