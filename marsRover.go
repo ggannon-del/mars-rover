@@ -13,8 +13,6 @@ type Planet struct {
 	grid          [][]string
 }
 
-//const gridSize = 4
-
 func NewRover(x, y int, direction string, planet *Planet) *Rover {
 	rover := &Rover{
 		x:         x,
@@ -89,12 +87,12 @@ func (r *Rover) FaceRight() {
 	r.direction = directionMap[r.direction]
 }
 
-func (r *Rover) MoveForward() {
-	r.Move(1)
+func (r *Rover) MoveForward() error {
+	return r.Move(1)
 }
 
-func (r *Rover) MoveBackward() {
-	r.Move(-1)
+func (r *Rover) MoveBackward() error {
+	return r.Move(-1)
 }
 
 func (r *Rover) clearOldPosition(x, y int) {
@@ -129,7 +127,7 @@ func (r *Rover) Move(step int) error {
 		}
 	}
 
-	if r.planet.grid[newX][newY] == "O" {
+	if r.isObstacleAt(newX, newY) {
 
 		r.updateRoverPositionOnGrid()
 		return fmt.Errorf("obstacle encountered at (%d, %d)", newX, newY)
@@ -140,14 +138,18 @@ func (r *Rover) Move(step int) error {
 	return nil
 }
 
+func (r *Rover) isObstacleAt(newX, newY int) bool {
+	return r.planet.grid[newX][newY] == "O"
+}
+
 func (r *Rover) ExecuteCommands(commands []string) error {
 	for _, command := range commands {
 		var err error
 		switch command {
 		case "f":
-			err = r.Move(1)
+			err = r.MoveForward()
 		case "b":
-			err = r.Move(-1)
+			err = r.MoveBackward()
 		case "l":
 			r.FaceLeft()
 		case "r":
