@@ -1,8 +1,16 @@
 package main
 
+import "fmt"
+
 type Rover struct {
 	x, y      int
 	direction string
+}
+
+type Planet struct {
+	height, width int
+	grid          [][]string
+	rover         *Rover
 }
 
 const gridSize = 4
@@ -15,33 +23,69 @@ func NewRover(x, y int, direction string) *Rover {
 	}
 }
 
+func NewPlanet(height, width int, rover *Rover) *Planet {
+	grid := make([][]string, height)
+	for i := range grid {
+		grid[i] = make([]string, width)
+	}
+	planet := &Planet{
+		height: height,
+		width:  width,
+		grid:   grid,
+		rover:  rover,
+	}
+	planet.updateRoverPositionOnGrid()
+	return planet
+}
+
+func (p *Planet) PlaceObstacle(x, y int) {
+	p.grid[x][y] = "O"
+}
+
+func (p *Planet) displayPlanet() {
+	for _, row := range p.grid {
+		for _, spot := range row {
+			if spot == "" { // If the spot is empty (uninitialized), print a space or placeholder
+				fmt.Print("  ") // Two spaces for an empty spot for better readability
+			} else {
+				fmt.Print(spot, " ") // Print the current value with a space for clarity
+			}
+		}
+		fmt.Println() // Newline after each row
+	}
+	fmt.Println() // Extra newline for better readability
+}
+
+func (p *Planet) updateRoverPositionOnGrid() {
+	p.grid[p.rover.x][p.rover.y] = "ROVER"
+}
+
+func (p *Planet) GetPlanetSpot(x, y int) string {
+	return p.grid[x][y]
+}
+
 func (r *Rover) GetPosition() (int, int, string) {
 	return r.x, r.y, r.direction
 }
 
-// refactor later to array
 func (r *Rover) FaceLeft() {
-	if r.direction == "N" {
-		r.direction = "W"
-	} else if r.direction == "W" {
-		r.direction = "S"
-	} else if r.direction == "S" {
-		r.direction = "E"
-	} else if r.direction == "E" {
-		r.direction = "N"
+	directionMap := map[string]string{
+		"N": "W",
+		"W": "S",
+		"S": "E",
+		"E": "N",
 	}
+	r.direction = directionMap[r.direction]
 }
 
 func (r *Rover) FaceRight() {
-	if r.direction == "N" {
-		r.direction = "E"
-	} else if r.direction == "E" {
-		r.direction = "S"
-	} else if r.direction == "S" {
-		r.direction = "W"
-	} else if r.direction == "W" {
-		r.direction = "N"
+	directionMap := map[string]string{
+		"N": "E",
+		"W": "N",
+		"S": "W",
+		"E": "S",
 	}
+	r.direction = directionMap[r.direction]
 }
 
 func (r *Rover) MoveForward() {

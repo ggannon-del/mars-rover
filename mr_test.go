@@ -13,6 +13,34 @@ func TestRoversInlitilisation(t *testing.T) {
 		t.Error("Expected position (0,0)", x, y)
 	}
 }
+
+func TestPlaceRoverOnPlanet(t *testing.T) {
+	Rover := NewRover(1, 1, "N")
+	planet := NewPlanet(3, 3, Rover)
+
+	want := "ROVER"
+	got := planet.GetPlanetSpot(1, 1)
+
+	if got != want {
+		t.Errorf("error placing rover on planet, got %v, expected %v", got, want)
+	}
+
+}
+
+func TestPlaceObstacleOnGrid(t *testing.T) {
+	Rover := NewRover(1, 1, "N")
+	planet := NewPlanet(3, 3, Rover)
+	planet.PlaceObstacle(2, 2)
+
+	want := "O"
+	got := planet.GetPlanetSpot(2, 2)
+
+	if got != want {
+		t.Errorf("error placing obstacle. Got %v, expected %v", got, want)
+	}
+
+}
+
 func TestFaceLeft(t *testing.T) {
 	tests := []struct {
 		name             string
