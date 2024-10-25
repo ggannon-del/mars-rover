@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Rover struct {
 	x, y      int
 	direction string
@@ -11,7 +13,7 @@ type Planet struct {
 	grid          [][]string
 }
 
-const gridSize = 4
+//const gridSize = 4
 
 func NewRover(x, y int, direction string, planet *Planet) *Rover {
 	rover := &Rover{
@@ -95,21 +97,81 @@ func (r *Rover) MoveBackward() {
 	r.Move(-1)
 }
 
-func (r *Rover) Move(step int) {
-	r.clearOldPosition(r.x, r.y)
-	switch r.direction {
-	case "N":
-		r.y = (r.y + step + gridSize) % gridSize
-	case "E":
-		r.x = (r.x + step + gridSize) % gridSize
-	case "S":
-		r.y = (r.y - step + gridSize) % gridSize
-	case "W":
-		r.x = (r.x - step + gridSize) % gridSize
-	}
-	r.updateRoverPositionOnGrid()
-}
+// func (r *Rover) Move(step int) {
+// 	r.clearOldPosition(r.x, r.y)
+// 	switch r.direction {
+// 	case "N":
+// 		r.y = (r.y + step + gridSize) % gridSize
+// 	case "E":
+// 		r.x = (r.x + step + gridSize) % gridSize
+// 	case "S":
+// 		r.y = (r.y - step + gridSize) % gridSize
+// 	case "W":
+// 		r.x = (r.x - step + gridSize) % gridSize
+// 	}
+// 	r.updateRoverPositionOnGrid()
+// }
 
 func (r *Rover) clearOldPosition(x, y int) {
 	r.planet.grid[x][y] = ""
+}
+
+func (r *Rover) Move(step int) error {
+
+	r.clearOldPosition(r.x, r.y)
+
+	newX, newY := r.x, r.y
+	switch r.direction {
+	case "N":
+		newY = (r.y + step) % r.planet.height
+		if newY < 0 {
+			newY += r.planet.height
+		}
+	case "E":
+		newX = (r.x + step) % r.planet.width
+		if newX < 0 {
+			newX += r.planet.width
+		}
+	case "S":
+		newY = (r.y - step) % r.planet.height
+		if newY < 0 {
+			newY += r.planet.height
+		}
+	case "W":
+		newX = (r.x - step) % r.planet.width
+		if newX < 0 {
+			newX += r.planet.width
+		}
+	}
+
+	if r.planet.grid[newX][newY] == "O" {
+
+		r.updateRoverPositionOnGrid()
+		return fmt.Errorf("obstacle encountered at (%d, %d)", newX, newY)
+	}
+
+	r.x, r.y = newX, newY
+	r.updateRoverPositionOnGrid()
+	return nil
+}
+
+func (r *Rover) ExecuteCommands(commands []string) error {
+	for _, command := range commands {
+		var err error
+		switch command {
+		case "f":
+			err = r.Move(1)
+		case "b":
+			err = r.Move(-1)
+		case "l":
+			r.FaceLeft()
+		case "r":
+			r.FaceRight()
+		}
+
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
