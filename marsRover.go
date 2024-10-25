@@ -97,21 +97,6 @@ func (r *Rover) MoveBackward() {
 	r.Move(-1)
 }
 
-// func (r *Rover) Move(step int) {
-// 	r.clearOldPosition(r.x, r.y)
-// 	switch r.direction {
-// 	case "N":
-// 		r.y = (r.y + step + gridSize) % gridSize
-// 	case "E":
-// 		r.x = (r.x + step + gridSize) % gridSize
-// 	case "S":
-// 		r.y = (r.y - step + gridSize) % gridSize
-// 	case "W":
-// 		r.x = (r.x - step + gridSize) % gridSize
-// 	}
-// 	r.updateRoverPositionOnGrid()
-// }
-
 func (r *Rover) clearOldPosition(x, y int) {
 	r.planet.grid[x][y] = ""
 }
