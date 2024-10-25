@@ -13,8 +13,6 @@ type Planet struct {
 	grid          [][]string
 }
 
-//const gridSize = 4
-
 func NewRover(x, y int, direction string, planet *Planet) *Rover {
 	rover := &Rover{
 		x:         x,
@@ -43,19 +41,19 @@ func (p *Planet) PlaceObstacle(x, y int) {
 	p.grid[x][y] = "O"
 }
 
-// func (p *Planet) displayPlanet() {
-// 	for _, row := range p.grid {
-// 		for _, spot := range row {
-// 			if spot == "" { // If the spot is empty (uninitialized), print a space or placeholder
-// 				fmt.Print(".") // Two spaces for an empty spot for better readability
-// 			} else {
-// 				fmt.Print(spot, " ") // Print the current value with a space for clarity
-// 			}
-// 		}
-// 		fmt.Println() // Newline after each row
-// 	}
-// 	fmt.Println() // Extra newline for better readability
-// }
+func (p *Planet) displayPlanet() {
+	for _, row := range p.grid {
+		for _, spot := range row {
+			if spot == "" {
+				fmt.Print(".")
+			} else {
+				fmt.Print(spot, " ")
+			}
+		}
+		fmt.Println()
+	}
+	fmt.Println()
+}
 
 func (r *Rover) updateRoverPositionOnGrid() {
 	r.planet.grid[r.x][r.y] = "ROVER"
@@ -96,21 +94,6 @@ func (r *Rover) MoveForward() {
 func (r *Rover) MoveBackward() {
 	r.Move(-1)
 }
-
-// func (r *Rover) Move(step int) {
-// 	r.clearOldPosition(r.x, r.y)
-// 	switch r.direction {
-// 	case "N":
-// 		r.y = (r.y + step + gridSize) % gridSize
-// 	case "E":
-// 		r.x = (r.x + step + gridSize) % gridSize
-// 	case "S":
-// 		r.y = (r.y - step + gridSize) % gridSize
-// 	case "W":
-// 		r.x = (r.x - step + gridSize) % gridSize
-// 	}
-// 	r.updateRoverPositionOnGrid()
-// }
 
 func (r *Rover) clearOldPosition(x, y int) {
 	r.planet.grid[x][y] = ""
