@@ -104,12 +104,8 @@ func (r *Rover) Move(step int) error {
 
 	newX, newY := r.calculateNewPosition(step)
 
-<<<<<<< HEAD
-	if r.planet.grid[newX][newY] == "O" {
-=======
 	if r.isObstacleAt(newX, newY) {
 
->>>>>>> 20a0f9e93f9137d3592f06e37fcf82da92b7ed2c
 		r.updateRoverPositionOnGrid()
 		return fmt.Errorf("obstacle encountered at (%d, %d)", newX, newY)
 	}
