@@ -100,35 +100,11 @@ func (r *Rover) clearOldPosition(x, y int) {
 }
 
 func (r *Rover) Move(step int) error {
-
 	r.clearOldPosition(r.x, r.y)
 
-	newX, newY := r.x, r.y
-	switch r.direction {
-	case "N":
-		newY = (r.y + step) % r.planet.height
-		if newY < 0 {
-			newY += r.planet.height
-		}
-	case "E":
-		newX = (r.x + step) % r.planet.width
-		if newX < 0 {
-			newX += r.planet.width
-		}
-	case "S":
-		newY = (r.y - step) % r.planet.height
-		if newY < 0 {
-			newY += r.planet.height
-		}
-	case "W":
-		newX = (r.x - step) % r.planet.width
-		if newX < 0 {
-			newX += r.planet.width
-		}
-	}
+	newX, newY := r.calculateNewPosition(step)
 
 	if r.planet.grid[newX][newY] == "O" {
-
 		r.updateRoverPositionOnGrid()
 		return fmt.Errorf("obstacle encountered at (%d, %d)", newX, newY)
 	}
@@ -136,6 +112,29 @@ func (r *Rover) Move(step int) error {
 	r.x, r.y = newX, newY
 	r.updateRoverPositionOnGrid()
 	return nil
+}
+func (r *Rover) calculateNewPosition(step int) (int, int) {
+	newX, newY := r.x, r.y
+
+	switch r.direction {
+	case "N":
+		newY = (r.y + step) % r.planet.height
+	case "E":
+		newX = (r.x + step) % r.planet.width
+	case "S":
+		newY = (r.y - step) % r.planet.height
+	case "W":
+		newX = (r.x - step) % r.planet.width
+	}
+
+	if newX < 0 {
+		newX += r.planet.width
+	}
+	if newY < 0 {
+		newY += r.planet.height
+	}
+
+	return newX, newY
 }
 
 func (r *Rover) ExecuteCommands(commands []string) error {
