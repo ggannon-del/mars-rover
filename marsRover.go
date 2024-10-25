@@ -46,7 +46,7 @@ func (p *Planet) displayPlanet() {
 	for _, row := range p.grid {
 		for _, spot := range row {
 			if spot == "" { // If the spot is empty (uninitialized), print a space or placeholder
-				fmt.Print("  ") // Two spaces for an empty spot for better readability
+				fmt.Print(".") // Two spaces for an empty spot for better readability
 			} else {
 				fmt.Print(spot, " ") // Print the current value with a space for clarity
 			}
@@ -107,4 +107,5 @@ func (r *Rover) Move(step int) {
 	case "W":
 		r.x = (r.x - step + gridSize) % gridSize
 	}
+	Planet.updateRoverPositionOnGrid()
 }
