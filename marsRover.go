@@ -44,20 +44,6 @@ func (r *Rover) FaceRight() {
 	}
 }
 
-/*
-	func (r *Rover) MoveForward() {
-		switch r.direction {
-		case "N":
-			r.y = (r.y + 1) % gridSize
-		case "E":
-			r.x = (r.x + 1) % gridSize
-		case "S":
-			r.y = (r.y - 1 + gridSize) % gridSize
-		case "W":
-			r.x = (r.x - 1 + gridSize) % gridSize
-		}
-	}
-*/
 func (r *Rover) MoveForward() {
 	r.Move(1)
 }
