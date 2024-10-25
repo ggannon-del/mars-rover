@@ -14,7 +14,11 @@ type Planet struct {
 const gridSize = 4
 
 func NewRover(x, y int, direction string, planet *Planet) *Rover {
+<<<<<<< Updated upstream
 	rover := &Rover{
+=======
+	return &Rover{
+>>>>>>> Stashed changes
 		x:         x,
 		y:         y,
 		direction: direction,
