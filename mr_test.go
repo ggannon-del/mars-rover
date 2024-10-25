@@ -21,7 +21,7 @@ func TestPlaceRoverOnPlanet(t *testing.T) {
 
 	Rover := NewRover(1, 1, "N", planet)
 
-	want := "ROVER"
+	want := "R"
 	got := Rover.GetPlanetSpot(1, 1)
 
 	if got != want {
@@ -274,7 +274,7 @@ func TestMovingForwardUpdatesPlanet(t *testing.T) {
 	Rover := NewRover(1, 1, "N", Planet)
 
 	Rover.MoveForward()
-	want := "ROVER"
+	want := "R"
 	got := Rover.GetPlanetSpot(1, 2)
 
 	if got != want {
@@ -289,7 +289,7 @@ func TestMovingBackwardUpdatesPlanet(t *testing.T) {
 	Rover := NewRover(1, 1, "N", Planet)
 
 	Rover.MoveBackward()
-	want := "ROVER"
+	want := "R"
 	got := Rover.GetPlanetSpot(1, 0)
 
 	if got != want {
@@ -304,7 +304,7 @@ func TestMovingForwardUpdatesPlanetEdgeCase(t *testing.T) {
 	Rover := NewRover(0, 3, "N", Planet)
 
 	Rover.MoveForward()
-	want := "ROVER"
+	want := "R"
 	got := Rover.GetPlanetSpot(0, 0)
 
 	if got != want {
@@ -319,7 +319,7 @@ func TestMovingBackwardUpdatesPlanetEdgeCase(t *testing.T) {
 	Rover := NewRover(0, 0, "N", Planet)
 
 	Rover.MoveBackward()
-	want := "ROVER"
+	want := "R"
 	got := Rover.GetPlanetSpot(0, 3)
 
 	if got != want {

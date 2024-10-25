@@ -43,22 +43,8 @@ func (p *Planet) PlaceObstacle(x, y int) {
 	p.grid[x][y] = "O"
 }
 
-// func (p *Planet) displayPlanet() {
-// 	for _, row := range p.grid {
-// 		for _, spot := range row {
-// 			if spot == "" { // If the spot is empty (uninitialized), print a space or placeholder
-// 				fmt.Print(".") // Two spaces for an empty spot for better readability
-// 			} else {
-// 				fmt.Print(spot, " ") // Print the current value with a space for clarity
-// 			}
-// 		}
-// 		fmt.Println() // Newline after each row
-// 	}
-// 	fmt.Println() // Extra newline for better readability
-// }
-
 func (r *Rover) updateRoverPositionOnGrid() {
-	r.planet.grid[r.x][r.y] = "ROVER"
+	r.planet.grid[r.x][r.y] = "R"
 }
 
 func (r *Rover) GetPlanetSpot(x, y int) string {
@@ -108,7 +94,6 @@ func (r *Rover) Move(step int) error {
 
 	if r.isObstacleAt(newX, newY) {
 
-		r.updateRoverPositionOnGrid()
 		return fmt.Errorf("obstacle encountered at (%d, %d)", newX, newY)
 	}
 
@@ -163,60 +148,4 @@ func (r *Rover) ExecuteCommands(commands []string) error {
 		}
 	}
 	return nil
-}
-
-// Assuming a 5x5 grid for demonstration
-const gridSize = 5
-
-func main() {
-	// Initialize the planet with a 5x5 grid and some obstacles
-	planet := Planet{
-		width:  gridSize,
-		height: gridSize,
-		grid: [][]string{
-			{".", ".", ".", ".", "."},
-			{".", "O", ".", "O", "."},
-			{".", ".", ".", ".", "."},
-			{"O", ".", ".", ".", "O"},
-			{".", ".", ".", ".", "."},
-		},
-	}
-
-	// Place the rover at the starting position (0, 0) facing North
-	rover := Rover{x: 0, y: 0, direction: "N", planet: &planet}
-	rover.updateRoverPositionOnGrid()
-
-	// Display initial state
-	fmt.Println("Initial Rover Position:")
-	printGrid(planet.grid)
-
-	// Commands for the rover to execute (e.g., move forward twice, turn, etc.)
-	commands := []string("f", "f", "r", "f", "f", "l", "f", "f")
-
-	// Execute each command and show the grid after each step
-	fmt.Println("\nExecuting commands:", string(commands))
-	for _, command := range commands {
-		err := rover.ExecuteCommands(command)
-		printGrid(planet.grid)
-
-		// Show error message if the rover encounters an obstacle
-		if err != nil {
-			fmt.Println(err)
-			break
-		}
-	}
-
-	// Final position after commands
-	fmt.Printf("\nFinal Position: (%d, %d) facing %s\n", rover.x, rover.y, rover.direction)
-}
-
-// Utility function to print the current grid state
-func printGrid(grid [][]string) {
-	for _, row := range grid {
-		for _, cell := range row {
-			fmt.Print(cell, " ")
-		}
-		fmt.Println()
-	}
-	fmt.Println()
 }
