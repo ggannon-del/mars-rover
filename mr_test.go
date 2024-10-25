@@ -5,7 +5,9 @@ import (
 )
 
 func TestRoversInlitilisation(t *testing.T) {
-	Rover := NewRover(0, 0, "N")
+	planet := NewPlanet(4, 4)
+
+	Rover := NewRover(0, 0, "N", planet)
 
 	x, y, _ := Rover.GetPosition()
 
@@ -15,11 +17,12 @@ func TestRoversInlitilisation(t *testing.T) {
 }
 
 func TestPlaceRoverOnPlanet(t *testing.T) {
-	Rover := NewRover(1, 1, "N")
-	planet := NewPlanet(3, 3, Rover)
+	planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 1, "N", planet)
 
 	want := "ROVER"
-	got := planet.GetPlanetSpot(1, 1)
+	got := Rover.GetPlanetSpot(1, 1)
 
 	if got != want {
 		t.Errorf("error placing rover on planet, got %v, expected %v", got, want)
@@ -28,12 +31,13 @@ func TestPlaceRoverOnPlanet(t *testing.T) {
 }
 
 func TestPlaceObstacleOnGrid(t *testing.T) {
-	Rover := NewRover(1, 1, "N")
-	planet := NewPlanet(3, 3, Rover)
-	planet.PlaceObstacle(2, 2)
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 1, "N", Planet)
+	Rover.planet.PlaceObstacle(2, 2)
 
 	want := "O"
-	got := planet.GetPlanetSpot(2, 2)
+	got := Rover.GetPlanetSpot(2, 2)
 
 	if got != want {
 		t.Errorf("error placing obstacle. Got %v, expected %v", got, want)
@@ -53,7 +57,9 @@ func TestFaceLeft(t *testing.T) {
 		{name: "Turn left from West", startingPosition: "W", expected: "S"},
 	}
 	for _, test := range tests {
-		Rover := NewRover(0, 0, test.startingPosition)
+		Planet := NewPlanet(4, 4)
+
+		Rover := NewRover(0, 0, test.startingPosition, Planet)
 		Rover.FaceLeft()
 		_, _, got := Rover.GetPosition()
 		if got != test.expected {
@@ -74,7 +80,9 @@ func TestFaceRight(t *testing.T) {
 		{name: "Turn right from West", startingPosition: "W", expected: "N"},
 	}
 	for _, test := range tests {
-		Rover := NewRover(0, 0, test.startingPosition)
+		Planet := NewPlanet(4, 4)
+
+		Rover := NewRover(0, 0, test.startingPosition, Planet)
 		Rover.FaceRight()
 		_, _, got := Rover.GetPosition()
 		if got != test.expected {
@@ -98,7 +106,9 @@ func TestMoveForwardHappyPath(t *testing.T) {
 		{name: "Forward facing West", facingDirection: "W", x: 1, y: 1, expectedX: 0, expectedY: 1},
 	}
 	for _, test := range tests {
-		Rover := NewRover(test.x, test.y, test.facingDirection)
+		Planet := NewPlanet(4, 4)
+
+		Rover := NewRover(test.x, test.y, test.facingDirection, Planet)
 
 		Rover.MoveForward()
 		gotX, gotY, _ := Rover.GetPosition()
@@ -126,7 +136,9 @@ func TestMoveForwardEdgeCases(t *testing.T) {
 		{name: "Forward facing West on lower esge of x axis", facingDirection: "W", x: 0, y: 1, expectedX: 3, expectedY: 1},
 	}
 	for _, test := range tests {
-		Rover := NewRover(test.x, test.y, test.facingDirection)
+		Planet := NewPlanet(4, 4)
+
+		Rover := NewRover(test.x, test.y, test.facingDirection, Planet)
 
 		Rover.MoveForward()
 
@@ -155,7 +167,9 @@ func TestMoveBackwardEdgeCases(t *testing.T) {
 		{name: "Backward facing West on upper edge of x axis", facingDirection: "W", x: 3, y: 1, expectedX: 0, expectedY: 1},
 	}
 	for _, test := range tests {
-		Rover := NewRover(test.x, test.y, test.facingDirection)
+		Planet := NewPlanet(4, 4)
+
+		Rover := NewRover(test.x, test.y, test.facingDirection, Planet)
 		Rover.MoveBackward()
 		gotX, gotY, _ := Rover.GetPosition()
 		if gotX != test.expectedX {
@@ -182,7 +196,9 @@ func TestMoveBackwardHappyPath(t *testing.T) {
 		{name: "Backward facing West", facingDirection: "W", x: 1, y: 1, expectedX: 2, expectedY: 1},
 	}
 	for _, test := range tests {
-		Rover := NewRover(test.x, test.y, test.facingDirection)
+		Planet := NewPlanet(4, 4)
+
+		Rover := NewRover(test.x, test.y, test.facingDirection, Planet)
 		Rover.MoveBackward()
 		gotX, gotY, _ := Rover.GetPosition()
 		if gotX != test.expectedX {
@@ -195,7 +211,9 @@ func TestMoveBackwardHappyPath(t *testing.T) {
 }
 
 func TestHappyPathMoveForwardNorth(t *testing.T) {
-	Rover := NewRover(1, 1, "N")
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 1, "N", Planet)
 
 	Rover.MoveForward()
 
@@ -207,7 +225,9 @@ func TestHappyPathMoveForwardNorth(t *testing.T) {
 }
 
 func TestMoveBackwardNorth(t *testing.T) {
-	Rover := NewRover(1, 1, "N")
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 1, "N", Planet)
 
 	Rover.MoveBackward()
 
@@ -219,7 +239,9 @@ func TestMoveBackwardNorth(t *testing.T) {
 }
 
 func TestMoveForwardNorthFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
-	Rover := NewRover(1, 3, "N")
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 3, "N", Planet)
 
 	Rover.MoveForward()
 	want := 0
@@ -232,7 +254,9 @@ func TestMoveForwardNorthFromTopEdgeNorthWrapsToBottomSouth(t *testing.T) {
 }
 
 func TestMoveBackwardNorthFromBottomEdgeSouthWrapsToTopNorth(t *testing.T) {
-	Rover := NewRover(1, 0, "N")
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 0, "N", Planet)
 
 	Rover.MoveBackward()
 	want := 3
@@ -245,12 +269,58 @@ func TestMoveBackwardNorthFromBottomEdgeSouthWrapsToTopNorth(t *testing.T) {
 }
 
 func TestMovingForwardUpdatesPlanet(t *testing.T) {
-	Rover := NewRover(1, 1, "N")
-	Planet := NewPlanet(4, 4, Rover)
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 1, "N", Planet)
 
 	Rover.MoveForward()
 	want := "ROVER"
-	got := Planet.GetPlanetSpot(1, 2)
+	got := Rover.GetPlanetSpot(1, 2)
+
+	if got != want {
+		t.Errorf("error when updating grid when rover moves, got %v, expected %v", got, want)
+	}
+
+}
+
+func TestMovingBackwardUpdatesPlanet(t *testing.T) {
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(1, 1, "N", Planet)
+
+	Rover.MoveBackward()
+	want := "ROVER"
+	got := Rover.GetPlanetSpot(1, 0)
+
+	if got != want {
+		t.Errorf("error when updating grid when rover moves, got %v, expected %v", got, want)
+	}
+
+}
+
+func TestMovingForwardUpdatesPlanetEdgeCase(t *testing.T) {
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(0, 3, "N", Planet)
+
+	Rover.MoveForward()
+	want := "ROVER"
+	got := Rover.GetPlanetSpot(0, 0)
+
+	if got != want {
+		t.Errorf("error when updating grid when rover moves, got %v, expected %v", got, want)
+	}
+
+}
+
+func TestMovingBackwardUpdatesPlanetEdgeCase(t *testing.T) {
+	Planet := NewPlanet(4, 4)
+
+	Rover := NewRover(0, 0, "N", Planet)
+
+	Rover.MoveBackward()
+	want := "ROVER"
+	got := Rover.GetPlanetSpot(0, 3)
 
 	if got != want {
 		t.Errorf("error when updating grid when rover moves, got %v, expected %v", got, want)
